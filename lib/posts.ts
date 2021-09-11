@@ -1,15 +1,11 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { postData, sortedPostData } from "../types";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
-interface postData {
-  date: string;
-  title: string;
-}
-
-export function getSortedPostsData() {
+export function getSortedPostsData(): sortedPostData[] {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
     const id = fileName.replace(/\.md$/, "");

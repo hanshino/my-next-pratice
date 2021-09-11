@@ -1,9 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { getSortedPostsData } from "../lib/posts";
 import styles from "../styles/Home.module.css";
+import { sortedPostData } from "../types";
 
-const Home: NextPage = () => {
+interface Props {
+  allPostsData: sortedPostData[]
+};
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  };
+}
+
+const Home: NextPage<Props> = ({ allPostsData }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -52,6 +67,22 @@ const Home: NextPage = () => {
           </a>
         </div>
       </main>
+
+      <section >…</section>
+      <section>
+        <h2 >Blog</h2>
+        <ul >
+          {allPostsData.map(({ id, date, title }) => (
+            <li key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <footer className={styles.footer}>
         <a
